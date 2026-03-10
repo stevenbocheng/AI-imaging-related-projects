@@ -32,24 +32,20 @@ with col2:
 # ==========================================
 # 2. 系統元件初始化 (Controller & Model)
 # ==========================================
-with st.sidebar:
-    st.header("設定")
-    user_api_key = st.text_input("OpenAI API Key", type="password", help="在此輸入您的 OpenAI API Key。若已有 .env 設定則可留空。")
-    st.info("💡 只有在輸入有效 Key 後，系統才能正常運作。")
-
 @st.cache_resource
-def init_system_components(api_key):
+def init_system_components():
     """初始化並快取系統元件，避免每次 Streamlit 重新整理時重複載入"""
     try:
-        math_engine = MathAIEngine(api_key=api_key)
+        math_engine = MathAIEngine()
     except ValueError as e:
-        return None, None, None, str(e)
+        st.error(str(e))
+        st.stop()
         
     gesture_ctrl = GestureController()
     detector = ht.handDetector()
-    return math_engine, gesture_ctrl, detector, None
+    return math_engine, gesture_ctrl, detector
 
-math_engine, gesture_ctrl, detector, error_msg = init_system_components(user_api_key if user_api_key else None)
+math_engine, gesture_ctrl, detector = init_system_components()
 
 # ==========================================
 # 3. 主循環：影像擷取與處理
@@ -65,10 +61,6 @@ last_request_time = 0
 COOLDOWN_SECONDS = 3
 
 while run:
-    if error_msg:
-        st.warning(error_msg)
-        st.stop()
-
     ret, frame = cap.read()
     if not ret:
         st.error("無法讀取相機畫面。")

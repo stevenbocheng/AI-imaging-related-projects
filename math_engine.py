@@ -8,16 +8,15 @@ import json
 from sympy import sympify, solve, integrate, diff
 
 class MathAIEngine:
-    def __init__(self, api_key: str = None):
+    def __init__(self):
         """
         初始化 Math AI Engine，負責處理與 OpenAI 的溝通。
         """
+        load_dotenv()
+        api_key = os.getenv("OPENAI_API_KEY")
+        
         if not api_key:
-            load_dotenv()
-            api_key = os.getenv("OPENAI_API_KEY")
-            
-        if not api_key:
-            raise ValueError("OpenAI API Key 未設定。請在 .env 中設定或於側邊欄輸入。")
+            raise ValueError("OpenAI API Key 未設定。請在 .env 中設定。")
             
         self.client = OpenAI(api_key=api_key)
     
