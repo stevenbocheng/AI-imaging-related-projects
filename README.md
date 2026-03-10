@@ -5,8 +5,7 @@
 Hyper-Math Vision 是一個高度工程化的電腦視覺與 AI 混合專案。使用者可以直接透過 WebCam，在空中「凌空手寫」數學算式（從基本四則運算到微積分），系統將即時捕捉指尖軌跡，並利用大型語言模型 (LLM) 與數學符號引擎 (SymPy) 雙重驗算，最終以 LaTeX 格式將精準解答渲染於螢幕上。
 
 ## 📺 Demo 影片
-
-<video src="demo_video.mp4" width="100%" controls></video>
+![Demo Movie](demo.gif)
 
 ---
 
